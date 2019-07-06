@@ -31,7 +31,7 @@ class IconsToShow extends Component {
 }
 
 export default class FirstScreen extends React.PureComponent {
-  
+
   static navigationOptions = ({ navigation }) => {
     return {
       headerRight: (
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold'
   }
-}); 
+});
 
 
 

@@ -63,6 +63,7 @@
 		E7175B93D294F2E97525F781 /* libPods-LetItGo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0219C65EAA2AE61EA3BC4F64 /* libPods-LetItGo-tvOS.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		F1CF01BB25CD435A8534E7FB /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D18E977DD1B540548CCFC2AD /* libRNGoogleSignin.a */; };
 		F69E8F48DD084A869D34C571 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4467697EB164456294604DE8 /* Foundation.ttf */; };
 		F99114D53FA34ED491C1AEF2 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AF6139D79E4473A5585BD7 /* libRNFirebase.a */; };
 		FB8BBC3D696381DC650148E5 /* libPods-LetItGo-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF09D1DD7CACDCEB3E83B8E7 /* libPods-LetItGo-tvOSTests.a */; };
@@ -350,6 +351,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		3EB73C6A22D071A100A57BA6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0437540043B64FCF882EDC8A /* RNGoogleSignin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
+			remoteInfo = RNGoogleSignin;
+		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -398,6 +406,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* LetItGoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LetItGoTests.m; sourceTree = "<group>"; };
 		0219C65EAA2AE61EA3BC4F64 /* libPods-LetItGo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LetItGo-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0437540043B64FCF882EDC8A /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		0854FD9DEB1DA48BABE519EE /* Pods-LetItGo-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetItGo-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetItGo-tvOS/Pods-LetItGo-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		0E6D5E063582440E82FD18CF /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		1055BCABB93F2F91F5C7C620 /* Pods-LetItGo-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetItGo-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetItGo-tvOSTests/Pods-LetItGo-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -446,6 +455,7 @@
 		C7EA6095497040FE86C63760 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		C8C3FFECE79C4774AE438CC8 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		D053F70DF45B4D1492F6DF8D /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		D18E977DD1B540548CCFC2AD /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		D4F2F5819838442C8DA043DD /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		DBC8832E10404F53AAFD29C8 /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; };
 		E3B964B427AC179D6CBA3AA9 /* Pods-LetItGoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetItGoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetItGoTests/Pods-LetItGoTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -489,6 +499,7 @@
 				30F7D4A14D3744ACBD593C25 /* libRNGestureHandler.a in Frameworks */,
 				FD00591C11B2C1EC929F8812 /* libPods-LetItGo.a in Frameworks */,
 				F99114D53FA34ED491C1AEF2 /* libRNFirebase.a in Frameworks */,
+				F1CF01BB25CD435A8534E7FB /* libRNGoogleSignin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,6 +674,7 @@
 				C7EA6095497040FE86C63760 /* libRNGestureHandler.a */,
 				75958676319444BBA186CD57 /* libRNGestureHandler-tvOS.a */,
 				84AF6139D79E4473A5585BD7 /* libRNFirebase.a */,
+				D18E977DD1B540548CCFC2AD /* libRNGoogleSignin.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -697,6 +709,14 @@
 			isa = PBXGroup;
 			children = (
 				3EB73BE022D04DFB00A57BA6 /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3EB73C6722D071A100A57BA6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3EB73C6B22D071A100A57BA6 /* libRNGoogleSignin.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -738,6 +758,7 @@
 				2CD85FA6CFCF4C1495AB2265 /* AirMaps.xcodeproj */,
 				491E1665C02146B48A9DAF18 /* RNGestureHandler.xcodeproj */,
 				78588FFAE3F34E2CAA65DC29 /* RNFirebase.xcodeproj */,
+				0437540043B64FCF882EDC8A /* RNGoogleSignin.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1005,6 +1026,10 @@
 				{
 					ProductGroup = 3EB73B8A22D0499300A57BA6 /* Products */;
 					ProjectRef = 491E1665C02146B48A9DAF18 /* RNGestureHandler.xcodeproj */;
+				},
+				{
+					ProductGroup = 3EB73C6722D071A100A57BA6 /* Products */;
+					ProjectRef = 0437540043B64FCF882EDC8A /* RNGoogleSignin.xcodeproj */;
 				},
 				{
 					ProductGroup = 3EB73B3922D0472E00A57BA6 /* Products */;
@@ -1288,6 +1313,13 @@
 			remoteRef = 3EB73BDF22D04DFB00A57BA6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3EB73C6B22D071A100A57BA6 /* libRNGoogleSignin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGoogleSignin.a;
+			remoteRef = 3EB73C6A22D071A100A57BA6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1484,10 +1516,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-LetItGo/Pods-LetItGo-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1575,12 +1609,14 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = LetItGoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1610,12 +1646,14 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = LetItGoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1647,6 +1685,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = LetItGo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1674,6 +1713,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = LetItGo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1707,11 +1747,13 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "LetItGo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1750,11 +1792,13 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "LetItGo-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1792,11 +1836,13 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "LetItGo-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1834,11 +1880,13 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin",
 				);
 				INFOPLIST_FILE = "LetItGo-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

@@ -3,6 +3,7 @@ package com.letitgo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNGoogleSigninPackage(),
             new RNFirebasePackage(),
             new RNGestureHandlerPackage(),
             new MapsPackage(),

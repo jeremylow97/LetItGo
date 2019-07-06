@@ -8,7 +8,7 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 import DetailsScreen from "./Components/DetailsScreen"
 import FirstScreen from "./Components/FirstScreen"
-// import ReviewSubmissionScreen from './Components/ReviewSubmissionScreen';
+import ReviewSubmissionScreen from './Components/ReviewSubmissionScreen';
 
 
 
@@ -25,9 +25,9 @@ const nav = createStackNavigator(
     Details: {
       screen: DetailsScreen,
     }, 
-    // Reviews : {
-    //   screen: ReviewSubmissionScreen
-    // }
+    Reviews : {
+      screen: ReviewSubmissionScreen
+    }
   }, {
     initialRouteName: 'First',
     defaultNavigationOptions: {

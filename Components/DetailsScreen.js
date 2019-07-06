@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, TouchableHighlight, Dimensions, ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { Overlay, AirbnbRating, ListItem, Button, Card } from 'react-native-elements';
+import { Overlay, AirbnbRating, ListItem, Button, Card, Rating } from 'react-native-elements';
 import { Icon } from 'react-native-vector-icons/MaterialIcons'
 import { FlatList } from 'react-native-gesture-handler';
 import firebase from 'react-native-firebase';
@@ -26,7 +26,7 @@ export default class DetailsScreen extends Component {
     this.state = {
       isVisible: false,
       userInfo: '',
-      reviews : []
+      reviews: []
     }
   }
 
@@ -45,10 +45,12 @@ export default class DetailsScreen extends Component {
               doc.data().userReviews.forEach(
                 (reviewObj) => {
                   reviews.push({
+                    photoURL : reviewObj.photoURL,
                     date: reviewObj.date.toDate(),
                     id: reviewObj.id,
                     name: reviewObj.name,
                     review: reviewObj.review,
+                    score: reviewObj.score,
                     uid: reviewObj.uid
                   })
                 }
@@ -69,27 +71,72 @@ export default class DetailsScreen extends Component {
   }
 
   renderHowLongAgo = (date) => {
-    let diffInDays = new Date().getDate() -  date.getDate();
-    
-    return diffInDays;
+
+    let diffInYears = new Date().getFullYear() - date.getFullYear();
+    let diffInMonths = new Date().getMonth() - date.getMonth();
+    let diffInDays = new Date().getDate() - date.getDate();
+    let diffInHours = new Date().getHours() - date.getHours();
+    let diffInMinutes = new Date().getMinutes() - date.getMinutes();
+
+    if (diffInYears <= 0) {
+      let diffInMonths = new Date().getMonth() - date.getMonth();
+      if (diffInMonths <= 0) {
+        let diffInDays = new Date().getDate() - date.getDate();
+        if (diffInDays <= 0 ) {
+          let diffInHours = new Date().getHours() - date.getHours();
+          if (diffInHours <= 0) {
+            let diffInMinutes = new Date().getMinutes() - date.getMinutes();
+            return diffInMinutes <= 0 ? "just now" : diffInMinutes + " minutes ago"
+          } else {
+              return diffInHours == 1 ? diffInHours + " hour ago" : diffInHours + " hours ago"
+          }
+        } else {
+            return diffInDays == 1 ? diffInDays + " day ago" : diffInDays + " days ago"
+        }
+      } else {
+          return diffInMonths == 1 ? diffInMonths + " month ago" : diffInMonths + " months ago"
+      }
+    } else {
+        return diffInYears == 1 ? diffInYears + " year ago" : diffInYears + " years ago"
+    }
+
   }
 
-  renderReviews = ({item}) => 
+  renderReviews = ({ item }) =>
     <ListItem
-      title = {item.name}
-      subtitle = {
+      title={
+        <ListItem
+          pad = {10}
+          containerStyle = {{padding:0}}
+          leftAvatar = {{
+            rounded : true,
+            source : {uri : item.photoURL},
+            size : 30
+          }}
+          title = {item.name} 
+          />
+      }
+      subtitle={
         <View>
-          <Text>{item.review}</Text>
-          <Text>{this.renderHowLongAgo(item.date)}</Text>
+          <View flexDirection='row' style = {{paddingVertical : 10}}>
+            <Rating
+              count 
+              startingValue = {item.score}
+              imageSize = {17}
+              style = {{marginRight: 15}}
+              readonly
+            />
+            <Text style = {{color: 'gray'}}>{this.renderHowLongAgo(item.date)}</Text>
+          </View>
+          <Text style = {{lineHeight : 20}}>{item.review}</Text>
         </View>
-
       }
     >
     </ListItem>
 
 
-    
-  
+
+
 
 
   render() {
@@ -196,11 +243,9 @@ export default class DetailsScreen extends Component {
                 size={20}
               />
               <FlatList
-                data = {this.state.reviews}
+                data={this.state.reviews}
                 renderItem={this.renderReviews}
               />
-
-
 
             </View>
 
@@ -214,7 +259,9 @@ export default class DetailsScreen extends Component {
             raised
             containerStyle={{ width: 0.5 * screenWidth, borderRadius: 20 }}
             buttonStyle={{ borderRadius: 20 }}
-            onPress={() => this.props.navigation.navigate('Reviews', {})}
+            onPress={() => this.props.navigation.navigate('Reviews', {
+              title: title
+            })}
           />
 
           <Overlay

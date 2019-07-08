@@ -10,7 +10,7 @@ import DetailsScreen from "./Components/DetailsScreen"
 import FirstScreen from "./Components/FirstScreen"
 import ReviewSubmissionScreen from './Components/ReviewSubmissionScreen';
 
-
+console.disableYellowBox = true;
 
 
 const nav = createStackNavigator(
@@ -33,13 +33,14 @@ const nav = createStackNavigator(
     defaultNavigationOptions: {
       
       headerStyle: {
-        backgroundColor: '#7a5901',
+        backgroundColor: '#7a4005',
         height: 60
       },
       title: 'LET IT GO',
       headerTitleStyle: {
         fontSize : 25,
-        color : 'yellow',
+        fontFamily : 'Marker Felt',
+        color : '#fff9db',
         flexWrap : 'wrap',
         flex : 1,
         flexShrink: 1

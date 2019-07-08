@@ -7,6 +7,8 @@ import { FlatList } from 'react-native-gesture-handler';
 import firebase from 'react-native-firebase';
 
 
+import FacilitiesListItem from "../Components/FacilitiesListItem";
+
 
 
 
@@ -26,7 +28,10 @@ export default class DetailsScreen extends Component {
     this.state = {
       isVisible: false,
       userInfo: '',
-      reviews: []
+      reviews: [],
+      expandText: false,
+      expandAll: false,
+      userInfo: this.props.navigation.getParam('userInfo', false)
     }
   }
 
@@ -36,39 +41,46 @@ export default class DetailsScreen extends Component {
 
   getReviewsData() {
     const reviews = [];
-
     this.ref.get()
       .then(
         (querySnapShot) => {
           querySnapShot.forEach(
             (doc) => {
-              doc.data().userReviews.forEach(
-                (reviewObj) => {
-                  reviews.push({
-                    photoURL : reviewObj.photoURL,
-                    date: reviewObj.date.toDate(),
-                    id: reviewObj.id,
-                    name: reviewObj.name,
-                    review: reviewObj.review,
-                    score: reviewObj.score,
-                    uid: reviewObj.uid
-                  })
-                }
-              )
+              reviews.push({
+                photoURL: doc.data().review.photoURL,
+                date: doc.data().review.date.toDate(),
+                id: doc.data().review.id,
+                name: doc.data().review.name,
+                review: doc.data().review.review,
+                score: doc.data().review.score,
+                uid: doc.data().review.uid,
+              })
             }
           )
         }
       )
       .then(() => {
-        this.setState({
-          reviews
+        reviews.sort((a, b) => {
+          return new Date(b.date) - new Date(a.date)
         })
+        let totalStars = 0;
+        let reviewCount = 0;
+        reviews.forEach((review) => {
+          reviewCount++;
+          totalStars += review.score
+        })
+        this.setState({
+          reviews,
+          avgRating: totalStars / reviewCount
+        })
+
       })
       .catch(function (error) {
         alert("Error getting documents: ", error);
       });
 
   }
+
 
   renderHowLongAgo = (date) => {
 
@@ -82,57 +94,73 @@ export default class DetailsScreen extends Component {
       let diffInMonths = new Date().getMonth() - date.getMonth();
       if (diffInMonths <= 0) {
         let diffInDays = new Date().getDate() - date.getDate();
-        if (diffInDays <= 0 ) {
+        if (diffInDays <= 0) {
           let diffInHours = new Date().getHours() - date.getHours();
           if (diffInHours <= 0) {
             let diffInMinutes = new Date().getMinutes() - date.getMinutes();
             return diffInMinutes <= 0 ? "just now" : diffInMinutes + " minutes ago"
           } else {
-              return diffInHours == 1 ? diffInHours + " hour ago" : diffInHours + " hours ago"
+            return diffInHours == 1 ? diffInHours + " hour ago" : diffInHours + " hours ago"
           }
         } else {
-            return diffInDays == 1 ? diffInDays + " day ago" : diffInDays + " days ago"
+          return diffInDays == 1 ? diffInDays + " day ago" : diffInDays + " days ago"
         }
       } else {
-          return diffInMonths == 1 ? diffInMonths + " month ago" : diffInMonths + " months ago"
+        return diffInMonths == 1 ? diffInMonths + " month ago" : diffInMonths + " months ago"
       }
     } else {
-        return diffInYears == 1 ? diffInYears + " year ago" : diffInYears + " years ago"
+      return diffInYears == 1 ? diffInYears + " year ago" : diffInYears + " years ago"
     }
 
   }
 
   renderReviews = ({ item }) =>
-    <ListItem
-      title={
-        <ListItem
-          pad = {10}
-          containerStyle = {{padding:0}}
-          leftAvatar = {{
-            rounded : true,
-            source : {uri : item.photoURL},
-            size : 30
-          }}
-          title = {item.name} 
+
+    <View style={{ paddingHorizontal: 10 }}>
+      <ListItem
+        title={
+          <ListItem
+            pad={10}
+            containerStyle={{ padding: 0 }}
+            leftAvatar={{
+              rounded: true,
+              source: { uri: item.photoURL },
+              size: 30
+            }}
+            title={item.name}
+            titleStyle={{ fontSize: 15, }}
           />
-      }
-      subtitle={
-        <View>
-          <View flexDirection='row' style = {{paddingVertical : 10}}>
-            <Rating
-              count 
-              startingValue = {item.score}
-              imageSize = {17}
-              style = {{marginRight: 15}}
-              readonly
-            />
-            <Text style = {{color: 'gray'}}>{this.renderHowLongAgo(item.date)}</Text>
+        }
+        subtitle={
+          <View>
+            <View flexDirection='row' style={{ paddingVertical: 10 }}>
+              <Rating
+                count
+                startingValue={item.score}
+                imageSize={17}
+                style={{ marginRight: 15 }}
+                readonly
+              />
+              <Text style={{ color: 'gray' }}>{this.renderHowLongAgo(item.date)}</Text>
+            </View>
+            <Text style={{ lineHeight: 20 }} onPress={() => this.setState({ expandText: !this.state.expandText })}>
+              {
+                this.state.expandText
+                  ? item.review
+                  : item.review.length > 100
+                    ? item.review.substring(0, 100) + "..."
+                    : item.review
+              }
+            </Text>
           </View>
-          <Text style = {{lineHeight : 20}}>{item.review}</Text>
-        </View>
-      }
-    >
-    </ListItem>
+        }
+      >
+      </ListItem>
+
+
+    </View>
+
+
 
 
 
@@ -200,55 +228,63 @@ export default class DetailsScreen extends Component {
                   containerStyle: { height: 25, width: 25, margin: 5 }
                 }}
                 title={title}
-                titleStyle={{ textDecorationLine: toiletObj.paranoma.maleYaw ? 'none' : 'line-through' }}
+
               />
-              <ListItem
-                leftIcon={<Text style={{ fontSize: 20 }}> 🙋‍♂️ </Text>}
-                title="Has Male Toilet"
-                titleStyle={{ textDecorationLine: toiletObj.paranoma.maleYaw ? 'none' : 'line-through' }}
-              />
-              <ListItem
-                leftIcon={<Text style={{ fontSize: 20 }}> 🙋‍ </Text>}
-                title="Has Female Toilet"
-                titleStyle={{ textDecorationLine: toiletObj.paranoma.femaleYaw ? 'none' : 'line-through' }}
-              />
-              <ListItem
-                leftIcon={<Text style={{ fontSize: 20 }}> ♿ </Text>}
-                title="Is Handicapped Accessible"
-                titleStyle={{ textDecorationLine: toiletObj.paranoma.handicappedYaw ? 'none' : 'line-through' }}
-              />
-              <ListItem
-                leftIcon={<Text style={{ fontSize: 20 }}> 🚰 </Text>}
-                title="Has Water Cooler"
-                titleStyle={{ textDecorationLine: toiletObj.paranoma.waterCoolerYaw ? 'none' : 'line-through' }}
-              />
-              <ListItem
-                leftIcon={<Text style={{ fontSize: 20 }}> 🚿 </Text>}
-                title="Has Shower Heads"
-                titleStyle={{ textDecorationLine: toiletObj.facilities.showerHeads ? 'none' : 'line-through' }}
-              />
-              <ListItem
-                leftIcon={<Text style={{ fontSize: 20 }}> 💦 </Text>}
-                title="Has Bidet Spray"
-                titleStyle={{ textDecorationLine: toiletObj.paranoma.hose ? 'none' : 'line-through' }}
-              />
+              <FacilitiesListItem type='male' isAvail={toiletObj.paranoma.maleYaw} />
+              <FacilitiesListItem type='female' isAvail={toiletObj.paranoma.femaleYaw} />
+              <FacilitiesListItem type='handicapped' isAvail={toiletObj.paranoma.handicappedYaw} />
+              <FacilitiesListItem type='waterCooler' isAvail={toiletObj.paranoma.waterCoolerYaw} />
+              <FacilitiesListItem type='shower' isAvail={toiletObj.facilities.showerHeads} />
+              <FacilitiesListItem type='bidet' isAvail={toiletObj.facilities.hose} />
+
             </View>
           </Card>
-          <Card title='Reviews'>
+          <Card title='Reviews Summary' containerStyle={{ paddingHorizontal: 0, paddingBottom: 0 }}>
+
             <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-evenly' }}>
-              <AirbnbRating
-                count={5}
-                showRating={false}
-                isDisabled={true}
-                size={20}
-              />
-              <FlatList
-                data={this.state.reviews}
-                renderItem={this.renderReviews}
-              />
+              <View style={{ flex: 1, flexDirection: 'row', paddingLeft: 15, justifyContent: 'center' }}>
+                <AirbnbRating
+                  count={5}
+                  showRating={false}
+                  isDisabled={true}
+                  size={20}
+                  defaultRating={this.state.avgRating}
+                />
+                <Text style={{ paddingTop: 5, marginLeft: 10, fontSize: 15, color: 'gray' }}>({Math.round(this.state.avgRating * 10) / 10})</Text>
+              </View>
+
+              <View style={{ flex: 1, alignItems: 'center', padding: 20 }}>
+                <Text style={{ fontWeight: 'bold', }}>Rate n Review</Text>
+                <Text>Share your experience to help others</Text>
+                <View style = {{paddingTop : 10 }}>
+                  <AirbnbRating
+                    count={5}
+                    showRating={false}
+                    size={25}
+                    defaultRating={0}
+                    style = {{backgroundColor:'black'}}
+                  />
+                </View>
+              </View>
+
+
 
             </View>
 
+          </Card>
+          <Card title = "Reviews"
+          containerStyle = {{marginTop:0 ,borderTopColor:'white'}}>
+            <FlatList
+                data={this.state.expandAll ? this.state.reviews : this.state.reviews.slice(0, 5)}
+                renderItem={this.renderReviews}
+                ItemSeparatorComponent={() => <View style={{ height: StyleSheet.hairlineWidth, backgroundColor: '#D3D3D3' }} />}
+              />
+              <Button
+                title={this.state.expandAll ? "HIDE" : "SHOW ALL REVIEWS"}
+                titleStyle={{ fontSize: 15 }}
+                type='clear'
+                onPress={() => this.setState({ expandAll: !this.state.expandAll })} />
+            
           </Card>
 
         </View>
@@ -260,7 +296,8 @@ export default class DetailsScreen extends Component {
             containerStyle={{ width: 0.5 * screenWidth, borderRadius: 20 }}
             buttonStyle={{ borderRadius: 20 }}
             onPress={() => this.props.navigation.navigate('Reviews', {
-              title: title
+              title: title,
+              userInfo: this.state.userInfo
             })}
           />
 

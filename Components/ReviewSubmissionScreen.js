@@ -13,11 +13,22 @@ export default class ReviewSubmissionScreen extends React.Component {
         super(props);
         this.ref = firebase.firestore().collection('reviews').doc(props.navigation.getParam('title', 'COM1')).collection('users')
         this.state = {
-            userInfo: ''
+            userInfo: '',
+            isUserSignedIn : false
         }
+        GoogleSignin.configure();
 
 
     }
+
+    isUserSignedIn = async () => {
+        this.setState({ isUserSignedIn: false, checkingSignedInStatus: true });
+        const isUserSignedIn = await GoogleSignin.isSignedIn();
+        if (isUserSignedIn) {
+            await this.getCurrentUserInfo();
+        }
+        this.setState({ isUserSignedIn, checkingSignedInStatus: false });
+    };
 
 
     signIn = async () => {
@@ -26,7 +37,7 @@ export default class ReviewSubmissionScreen extends React.Component {
             const userInfo = await GoogleSignin.signIn();
             const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken)
             await firebase.auth().signInWithCredential(credential);
-            this.setState({ userInfo });
+            this.setState({ userInfo, signedIn: true });
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
@@ -39,17 +50,20 @@ export default class ReviewSubmissionScreen extends React.Component {
             }
         }
     };
-    getCurrentUser = async () => {
-        //May be called eg. in the componentDidMount of your main component.
-        //This method returns the current user
-        //if they already signed in and null otherwise.
+    getCurrentUserInfo = async () => {
         try {
-            const userInfo = await GoogleSignin.signInSilently();
-            this.setState({ userInfo });
+          const userInfo = await GoogleSignin.signInSilently();
+          this.setState({ userInfo });
         } catch (error) {
-            console.error(error);
+          if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+            // user has not signed in yet
+          } else {
+            // some other error
+          }
         }
-    };
+      };
+
+
     _signOut = async () => {
         //Remove user session from the device.
         try {
@@ -71,21 +85,8 @@ export default class ReviewSubmissionScreen extends React.Component {
         }
     };
 
-    componentWillMount() {
-        // get UID
-
-    }
-
     componentDidMount() {
-        GoogleSignin.configure({
-            scopes: [], // what API you want to access on behalf of the user, default is email and profile
-            webClientId: '917575844853-9mudj4eq4gucn5636o1rvu6gk46g2e7v.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-            offlineAccess: false, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-            hostedDomain: '', // specifies a hosted domain restriction
-            loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
-            forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login.
-            accountName: '', // [Android] specifies an account name on the device that should be used
-        });
+        this.isUserSignedIn();
     }
 
 
@@ -93,7 +94,7 @@ export default class ReviewSubmissionScreen extends React.Component {
         return Math.random().toString(36).substr(2, 9);
     }
 
-    submitReview(text, rating){
+    submitReview(text, rating) {
         const str = this.generateRandomID();
         let user = firebase.auth().currentUser
         let reviewDoc = this.ref.doc(user.uid)
@@ -101,40 +102,42 @@ export default class ReviewSubmissionScreen extends React.Component {
             .then((docSnapshot) => {
                 if (docSnapshot.exists) {
                     reviewDoc.update({
-                        userReviews : firebase.firestore.FieldValue.arrayUnion({
-                            date : firebase.firestore.Timestamp.now(),
-                            id : str,
-                            name : user.displayName,
-                            photoURL : user.photoURL,
-                            review : text,
-                            score : rating ? rating : 3,
-                            uid : user.uid
-                            
+                        userReviews: firebase.firestore.FieldValue.arrayUnion({
+                            date: firebase.firestore.Timestamp.now(),
+                            id: str,
+                            name: user.displayName,
+                            photoURL: user.photoURL,
+                            review: text,
+                            score: rating ? rating : 3,
+                            uid: user.uid
+
                         })
                     })
 
                 } else {
                     reviewDoc.set({
-                        userReviews : [{
-                            date : firebase.firestore.Timestamp.now(),                            
-                            id : str,
-                            name : user.displayName,
-                            photoURL : user.photoURL,
-                            review : text,
-                            score : rating ? rating : 3,
-                            uid : user.uid
+                        userReviews: [{
+                            date: firebase.firestore.Timestamp.now(),
+                            id: str,
+                            name: user.displayName,
+                            photoURL: user.photoURL,
+                            review: text,
+                            score: rating ? rating : 3,
+                            uid: user.uid
                         }]
                     })
                 }
             }).then(
-                () => alert("finished!")
+                () => this.props.navigation.goBack()
             )
-        
+
+
     }
 
     render() {
-        return this.state.userInfo == ""
-            ? ( 
+
+        return this.state.isUserSignedIn == ""
+            ? (
                 <View style={{ padding: 10, alignItems: 'center', justifyContent: 'center' }}>
                     <GoogleSigninButton
                         style={{ width: 192, height: 48 }}
@@ -161,9 +164,9 @@ export default class ReviewSubmissionScreen extends React.Component {
                     <AirbnbRating
                         count={5}
                         showRating={false}
-                        defaultRating = {3}
+                        defaultRating={3}
                         size={30}
-                        onFinishRating = {(rating) => this.setState({rating})}
+                        onFinishRating={(rating) => this.setState({ rating })}
                     />
                     <Input
                         placeholder='Share what you think of this toilet!'

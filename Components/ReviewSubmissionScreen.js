@@ -11,10 +11,10 @@ import firebase from 'react-native-firebase';
 export default class ReviewSubmissionScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.ref = firebase.firestore().collection('reviews').doc(props.navigation.getParam('title', 'COM1')).collection('users')
+        this.ref = firebase.firestore().collection('reviews').doc(this.props.navigation.getParam('title', 'COM1')).collection('users')
         this.state = {
             userInfo: '',
-            isUserSignedIn : false
+            isUserSignedIn: false
         }
         GoogleSignin.configure();
 
@@ -37,7 +37,7 @@ export default class ReviewSubmissionScreen extends React.Component {
             const userInfo = await GoogleSignin.signIn();
             const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken)
             await firebase.auth().signInWithCredential(credential);
-            this.setState({ userInfo, signedIn: true });
+            this.setState({ userInfo, isUserSignedIn: true });
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
@@ -50,19 +50,23 @@ export default class ReviewSubmissionScreen extends React.Component {
             }
         }
     };
+    getCurrentUser = async () => {
+        const currentUser = await GoogleSignin.getCurrentUser();
+        this.setState({ currentUser });
+    };
+
     getCurrentUserInfo = async () => {
         try {
-          const userInfo = await GoogleSignin.signInSilently();
-          this.setState({ userInfo });
+            const userInfo = await GoogleSignin.signInSilently();
+            this.setState({ userInfo });
         } catch (error) {
-          if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-            // user has not signed in yet
-          } else {
-            // some other error
-          }
+            if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+                // user has not signed in yet
+            } else {
+                // some other error
+            }
         }
-      };
-
+    };
 
     _signOut = async () => {
         //Remove user session from the device.
@@ -85,56 +89,43 @@ export default class ReviewSubmissionScreen extends React.Component {
         }
     };
 
-    componentDidMount() {
+    componentWillMount() {
         this.isUserSignedIn();
     }
 
 
-    generateRandomID() {
-        return Math.random().toString(36).substr(2, 9);
-    }
+
 
     submitReview(text, rating) {
-        const str = this.generateRandomID();
         let user = firebase.auth().currentUser
         let reviewDoc = this.ref.doc(user.uid)
-        reviewDoc.get()
-            .then((docSnapshot) => {
-                if (docSnapshot.exists) {
-                    reviewDoc.update({
-                        userReviews: firebase.firestore.FieldValue.arrayUnion({
-                            date: firebase.firestore.Timestamp.now(),
-                            id: str,
-                            name: user.displayName,
-                            photoURL: user.photoURL,
-                            review: text,
-                            score: rating ? rating : 3,
-                            uid: user.uid
+        let review = {
+            date: firebase.firestore.Timestamp.now(),
+            name: user.displayName,
+            photoURL: user.photoURL,
+            review: text,
+            score: rating ? rating : 3,
+            uid: user.uid
 
-                        })
-                    })
-
-                } else {
-                    reviewDoc.set({
-                        userReviews: [{
-                            date: firebase.firestore.Timestamp.now(),
-                            id: str,
-                            name: user.displayName,
-                            photoURL: user.photoURL,
-                            review: text,
-                            score: rating ? rating : 3,
-                            uid: user.uid
-                        }]
-                    })
-                }
-            }).then(
-                () => this.props.navigation.goBack()
-            )
+        }
+        reviewDoc.set({
+            review
+        }).then(
+            
+            () => {
+                this.props.navigation.goBack()
+            }
+        ).catch(
+            (error) => {
+                alert(error);
+            }
+        )
 
 
     }
 
     render() {
+        
 
         return this.state.isUserSignedIn == ""
             ? (
@@ -164,7 +155,7 @@ export default class ReviewSubmissionScreen extends React.Component {
                     <AirbnbRating
                         count={5}
                         showRating={false}
-                        defaultRating={3}
+                        defaultRating={this.props.navigation.getParam('count', 0)}
                         size={30}
                         onFinishRating={(rating) => this.setState({ rating })}
                     />

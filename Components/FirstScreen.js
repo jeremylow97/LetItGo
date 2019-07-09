@@ -97,20 +97,17 @@ export default class FirstScreen extends React.PureComponent {
         querySnapshot.forEach((doc) => {
           toilets.push({
             facilities: {
+              male: doc.data().facilities.male,
+              female: doc.data().facilities.female,
+              handicapped: doc.data().facilities.handicapped,
               hose: doc.data().facilities.hose,
-              showerHeads: doc.data().facilities.showerHeads
+              showerHeads: doc.data().facilities.showerHeads,
+              waterCooler: doc.data().facilities.waterCooler
             },
             lat: doc.data().lat,
             lon: doc.data().lon,
             name: doc.data().name,
-            paranoma: {
-              femaleYaw: doc.data().paranoma.femaleYaw,
-              handicappedYaw: doc.data().paranoma.handicappedYaw,
-              maleYaw: doc.data().paranoma.maleYaw,
-              startingYaw: doc.data().paranoma.startingYaw,
-              url: doc.data().paranoma.url,
-              waterCoolerYaw: doc.data().paranoma.waterCoolerYaw
-            },
+            paranomaUrl: doc.data().paranomaUrl,
             distance: Math.floor(getDistance(
               { latitude: distance.coords.latitude, longitude: distance.coords.longitude },
               { latitude: doc.data().lat, longitude: doc.data().lon },
@@ -147,7 +144,7 @@ export default class FirstScreen extends React.PureComponent {
       subtitle={item.distance + 'm'}
       subtitleStyle={{ fontSize: 10 }}
 
-      rightElement={<IconsToShow isMale={item.paranoma.maleYaw} isFemale={item.paranoma.femaleYaw} isWC={item.paranoma.handicappedYaw} />}
+      rightElement={<IconsToShow isMale={item.facilities.male} isFemale={item.facilities.female} isWC={item.facilities.handicapped} />}
 
 
       titleStyle={{ alignItems: 'center' }}
@@ -155,7 +152,7 @@ export default class FirstScreen extends React.PureComponent {
         this.props.navigation.navigate('Details', {
           lat: item.lat,
           lon: item.lon,
-          imgURL: item.paranoma.url,
+          imgURL: item.paranomaUrl,
           title: item.name,
           toiletObj: item
         })}
